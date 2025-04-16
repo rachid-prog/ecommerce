@@ -23,6 +23,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+// Middleware pour logger les requêtes
+app.use((req, res, next)=>{
+  console.log(`${req.method} ${req.url} ${res.statusCode} ${new Date().toLocaleString()}`);
+  next();
+})
+
 //favicon
 app.use(favicon(__dirname + "/favicon.png"));
 
