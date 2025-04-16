@@ -3,6 +3,8 @@ const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const cors = require("cors");
+const { schemaCategorie, schemaProduit } = require("./middleware/check");
+
 //favicon
 const favicon = require("serve-favicon");
 
@@ -34,10 +36,10 @@ const server = app.listen(PORT, () => {
 });
 
 //Routes catégories
-app.use("/api/categories", require("./routes/categories"));
+app.use("/api/categories", schemaCategorie, require("./routes/categories"));
 
 //Routes produits
-app.use("/api/produits", require("./routes/produits"));
+app.use("/api/produits", schemaProduit, require("./routes/produits"));
 
 //Routes produits par catégorie
 app.use("/api/categories/:id/produits", require("./routes/produits"));
