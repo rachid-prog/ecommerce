@@ -1,21 +1,39 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
 
 const userSchema = new mongoose.Schema({
     nom: { type: String, required: [true, "Le nom est obligatoire"], trim: true, unique: [true, "Le nom doit être unique"],
         minlength: [3, "Le nom doit contenir au moins 3 caractères"],
         maxlength: [30, "Le nom doit contenir au plus 30 caractères"],
-        regex: /^[a-zA-Z_éèàçù\s]+$/
+       validate: {
+        validator: function(v) {
+            return /^[a-zA-Z_éèàçù\s]+$/.test(v);
+        },
+        message: "Le nom doit contenir uniquement des lettres et des underscores"
+       }
     },
     email: { type: String, required: [true, "L'email est obligatoire"], trim: true, unique: [true, "L'email doit être unique"],
-        regex: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+        validate: {
+            validator: validator.isEmail,
+            message: "L'email est invalide"
+        }
     },
     password: { type: String, required: [true, "Le mot de passe est obligatoire"], trim: true,
         minlength: [8, "Le mot de passe doit contenir au moins 8 caractères"],
         maxlength: [64, "Le mot de passe doit contenir au plus 64 caractères"],
-        match: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+        validate: {
+            validator: function(v) {
+                return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(v);
+            },
+            message: "Le mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial"
+        }
+       
     },
     role: { type: String, enum: ["admin", "user"], default: "user" },
     active: { type: Boolean, default: true },
+    
+   
+    
     
 }, { timestamps: true });
 

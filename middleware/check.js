@@ -59,6 +59,22 @@ const schemaUser = (req, res, next) => {
     }
     next();
 }
+
+const schemaUserLogin = (req, res, next) => {
+    const schema = Joi.object({
+        nom: Joi.string().required().min(3).max(30).trim().regex(/^[a-zA-Z_éèàçù\s]+$/),
+        email: Joi.string().required().email().trim().regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/).lowercase(),
+        password: Joi.string().required().min(8).max(64).trim().regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/).lowercase()
+        .message({
+            "string.empty": "Le mot de passe est obligatoire",
+            "string.min": "Le mot de passe doit contenir au moins 8 caractères",
+            "string.max": "Le mot de passe doit contenir au plus 64 caractères",
+            "string.regex": "Le mot de passe doit contenir uniquement des lettres et des underscores",
+        })
+    })
+    
+}
+
 module.exports = { schemaCategorie, schemaProduit, schemaUser };
 
 

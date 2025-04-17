@@ -10,7 +10,8 @@
     "serve-favicon": "^2.5.0",
     "sharp": "^0.34.1",
     "slugify": "^1.6.6",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "validator": "^13.15.0"
   },
   "devDependencies": {
     "morgan": "^1.10.0"

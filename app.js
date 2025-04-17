@@ -3,7 +3,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const cors = require("cors");
-const { schemaCategorie, schemaProduit, schemaUser } = require("./middleware/check");
+const { schemaCategorie, schemaProduit, schemaUser} = require("./middleware/check");
 const upload = require("./middleware/multer.config");
 const path = require("path");
 
