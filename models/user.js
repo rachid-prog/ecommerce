@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 
 const userSchema = new mongoose.Schema({
-    nom: { type: String, required: [true, "Le nom est obligatoire"], trim: true, unique: [true, "Le nom doit être unique"],
+    nom: { type: String, required: [true, "Le nom est obligatoire"], trim: true,
         minlength: [3, "Le nom doit contenir au moins 3 caractères"],
         maxlength: [30, "Le nom doit contenir au plus 30 caractères"],
        validate: {
@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
         maxlength: [64, "Le mot de passe doit contenir au plus 64 caractères"],
         validate: {
             validator: function(v) {
-                return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(v);
+                return /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{8,}$/.test(v);
             },
             message: "Le mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial"
         }
