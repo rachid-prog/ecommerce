@@ -4,6 +4,8 @@ const dotenv = require("dotenv");
 const morgan = require("morgan");
 const cors = require("cors");
 const { schemaCategorie, schemaProduit } = require("./middleware/check");
+const upload = require("./middleware/multer.config");
+const path = require("path");
 
 //favicon
 const favicon = require("serve-favicon");
@@ -22,10 +24,11 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(express.static(path.join(__dirname, "uploads")));
 
 // Middleware pour logger les requêtes
 app.use((req, res, next)=>{
-  console.log(`${req.method} ${req.url} ${res.statusCode} ${new Date().toLocaleString()}`);
+  console.log(`${req.method} ${req.url} ${new Date().toLocaleString()}`);
   next();
 })
 
@@ -42,7 +45,7 @@ const server = app.listen(PORT, () => {
 });
 
 //Routes catégories
-app.use("/api/categories", schemaCategorie, require("./routes/categories"));
+app.use("/api/categories", schemaCategorie, upload, require("./routes/categories"));
 
 //Routes produits
 app.use("/api/produits", schemaProduit, require("./routes/produits"));

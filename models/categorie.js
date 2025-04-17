@@ -15,10 +15,18 @@ const categorieSchema = new mongoose.Schema({
 
     },
     slug: { type: String, },
+    image: { type: String, },
     
 }, { timestamps: true });
 
-
+categorieSchema.post("init", (doc)=>{
+    //Returner url+image
+    
+    if(doc.image){
+        const imageUrl= `${process.env.BASE_URL}/api/categories/${doc.image}`
+        doc.image = imageUrl;
+    }
+})
 
 module.exports = mongoose.model("Categorie", categorieSchema);
 
