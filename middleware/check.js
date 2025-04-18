@@ -2,7 +2,7 @@ const Joi = require("joi");
 
 const schemaCategorie = (req, res, next) => {
     const schema = Joi.object({
-        nom: Joi.string().required().min(3).max(30).trim().regex(/^[a-zA-Z_éèàçù\s]+$/).lowercase().message({
+        nom: Joi.string().required().min(3).max(30).trim().regex(/^[a-zA-Z_éèàçù\s]+$/).message({
             "string.empty": "Le nom de la catégorie est obligatoire",
             "string.min": "Le nom de la catégorie doit contenir au moins 3 caractères",
             "string.max": "Le nom de la catégorie doit contenir au plus 30 caractères",
@@ -14,6 +14,7 @@ const schemaCategorie = (req, res, next) => {
 
     const { error } = schema.validate(req.body);
     if (error) {
+        console.log(error);
         return res.status(400).json({ message: error.details[0].message });
     }
     next();

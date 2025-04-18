@@ -12,7 +12,7 @@ const createCategory = async (req, res) => {
     catch(error){
         console.log(error);
         if(error.name === "CastError") return res.status(400).json({ message: "Format de données invalide" });
-        if(error.code === 11000) return res.status(400).json({ message: "Cette catégorie existe déjà" });
+        if(error.code === "ValidatorError") return res.status(400).json({ message: "Cette catégorie existe déjà" });
         if(error.message === "Error") return res.status(400).json({ message: "Format de l'image invalide" });
         res.status(500).json({ message: "Erreur serveur", error: error.message });
     }

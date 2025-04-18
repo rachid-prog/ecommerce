@@ -29,7 +29,14 @@ const userSchema = new mongoose.Schema({
         }
        
     },
-    role: { type: String, enum: ["admin", "user"], default: "user" },
+    role: { type: String, enum: ["admin", "user"], default: "user", 
+        validate: {
+            validator: function(v){
+                return ["admin", "user"].includes(v);
+            },
+            message: "Le rôle doit être soit 'admin' soit 'user'"
+        }
+     },
     active: { type: Boolean, default: true },
     
    

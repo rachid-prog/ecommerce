@@ -1,6 +1,6 @@
 const multer = require("multer");
 const uuid = require("uuid");
-
+//req.file ==>[fieldname, originalname, mimetype, size, path]
 
 const MIME_TYPES = {
     "image/jpg": "jpg",
@@ -12,7 +12,7 @@ const MIME_TYPES = {
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "uploads");
+        cb(null, "public");
     },
     filename: function (req, file, cb) {
         //unique nom image
@@ -22,10 +22,11 @@ const storage = multer.diskStorage({
 
         }
         //Sauvgarder dans db
-        req.body.image = file.fieldname + "-" + uuid.v4() + Date.now() + "." + ext;
-        cb(null, file.fieldname + "-" + uuid.v4() + Date.now() + "." + ext);
+        req.body.image = "Produit"+"-"+file.fieldname + "-" + uuid.v4() +"-"+ Date.now() + "." + ext;
+        cb(null, req.body.image);
         
     },
+    
 });
 
 const upload = multer({ storage: storage });

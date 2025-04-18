@@ -3,8 +3,16 @@ const Produit = require("../../models/produit");
 const getAllProduits = async (req, res) => {
     try{
         const obj={}
-        if(req.params.id) obj.categorie = req.params.id;
-       
+
+        //filtre les produits 
+        if(req.params.id) obj.categorie = req.params.id;       
+        //filtre par prix
+        if(req.query.prix_gt)  obj.prix = {$gt:req.query.prix_gt}
+        if(req.query.prix_lt) obj.prix = {$lt:req.query.prix_lt};
+        if(req.query.prix_gte) obj.prix = {$gte:req.query.prix_gte};
+        if(req.query.prix_lte) obj.prix = {$lte:req.query.prix_lte};
+        if(req.query.nom) obj.nom = {$regex:req.query.nom, $options:"i"};
+             
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 5;
         const skip = (page - 1) * limit;
